@@ -1,9 +1,11 @@
 /*
 TO-DO:
+- INPUTTING DATA LOGIC
 - Move trajectory
 - Move spacecraft
 - Success or fail
 */
+
 
 function preload() {
   planet = loadImage('assets/planet.png');
@@ -16,13 +18,18 @@ function setup() {
   textAlign(CENTER);
   imageMode(CENTER);
   rectMode(CENTER);
-  input = createInput('');
+  input = createInput("");
+  button = createButton("Submit");
 }
 
 let testData = 0;
 let abc = 0;
 let infoShow = false;
 let gameOn = false;
+let dataEntered = false;
+let dataForShip = [1, 2, 3, 4, 5];
+let screen = ["title", "game", "end"];
+
 function draw() {
   
   if(gameOn){
@@ -44,7 +51,7 @@ function draw() {
   } else{
     background(0);
     titleScreen();
-    if(isClicked(width/2, height/2, width, height)){
+    if(isClicked(width/2, height/2, width, height) && dataEntered){
       gameOn = true;
     }
   }
@@ -54,9 +61,35 @@ function draw() {
 function titleScreen(){
   fill(255);
   text("RE-ENTRY GAME", width/2, height/2);
+  text("Enter the data first", width/2, height/2 + 25);
   text("Click anywhere to begin", width/2, height/2 + 50);
-  
+
+  //draw input on the screen. Variable to check which one it should go to.
+  input.position(width/2, height/2 + 125);
+  button.position(input.x + input.width, input.y);
 }
+
+function keyPressed(){
+  //check which screen you are in
+  for(let i = 0; i < screen.length()-1; i ++){
+    switch(screen[i]){
+      case "title":
+        //Stuff for entering
+        if(keyCode === ENTER){
+          dataForShip[0] = 5;//FIIIIIIIIIX
+          input.value('');
+        }
+        break;
+      case "game":
+        break;
+      case "end":
+        break;
+      default:
+        break;
+    }
+  }
+}
+
 
 function earth(){
   let radius = 350, planetX = width/3, planetY = height/2;
@@ -73,10 +106,6 @@ function spacecraft(){
   fill(100, 100, 100);
   image(reentryCraft, craftX, craftY, 30, 30);
 
-  /*
-  Formulas:
-    Bler bler bler
-  */
   craftX += 2;
   craftY += 3;
 }
