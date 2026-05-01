@@ -17,26 +17,37 @@ function setup() {
   createCanvas(windowWidth-31.5, windowHeight-20);
   textAlign(CENTER);
   imageMode(CENTER);
-  rectMode(CENTER);
-  input = createInput("");
-  button = createButton("Submit");
+  rectMode(CORNER);
+  ellipseMode(CENTER);
+
+  //setup the hitboxes stuff
+
+
+  //input = createInput("");
+  //button = createButton("Submit");
 }
 
-let testData = 0;
-let abc = 0;
-let infoShow = false;
-let gameOn = false;
-let dataEntered = false;
-let dataForShip = [1, 2, 3, 4, 5];
-let screen = ["title", "game", "end"];
+let testData = 0; //i have even less idea
+let abc = 0; //i have no idea
+let infoShow = false; //is it showing the information on the screen?
+let gameOn = false; //dont really need this if we have screen
+let dataEntered = false; //is the data entered?
+
+let shipData = new Map();
+shipData.set("trajectory", 20);
+let trajectory = shipData.get("trajectory"); //this is equal to 20
+let dataForShip = [1, 2, 3, 4, 5]; //the data values used for the ship. OOH THIS SHOULD BE A MAP
+
+
+let screen = ["title", "game", "end"]; //which screen of the game they are on
 
 function draw() {
-  
-  if(gameOn){
+  //need other thingy bc i don't like this way
+  if(!gameOn){
     background(0);
     earth();
     spacecraft();
-    inputBox();
+    // inputBox();
 
     fill(255, 0, 0);
     rect(width-50, 50, 50, 50);
@@ -65,52 +76,30 @@ function titleScreen(){
   text("Click anywhere to begin", width/2, height/2 + 50);
 
   //draw input on the screen. Variable to check which one it should go to.
-  input.position(width/2, height/2 + 125);
-  button.position(input.x + input.width, input.y);
+  //input.position(width/2, height/2 + 125);
+  //button.position(input.x + input.width, input.y);
 }
-
-function keyPressed(){
-  //check which screen you are in
-  for(let i = 0; i < screen.length()-1; i ++){
-    switch(screen[i]){
-      case "title":
-        //Stuff for entering
-        if(keyCode === ENTER){
-          dataForShip[0] = 5;//FIIIIIIIIIX
-          input.value('');
-        }
-        break;
-      case "game":
-        break;
-      case "end":
-        break;
-      default:
-        break;
-    }
-  }
-}
-
 
 function earth(){
-  let radius = 350, planetX = width/3, planetY = height/2;
-  image(planet, planetX, planetY, radius, radius);
+  let radius = 350, planetX = width/3, planetY = height/2; //sets the position and size of the earth
+  image(planet, planetX, planetY, radius, radius); //draws the earth on the screen
 }
 
-let craftX = 0, craftY = 0;
+let craftX = 0, craftY = 0; //location of the craft
 
 function spacecraft(){
-  if(craftX > width || craftY > height){
-    craftX = 0;
-    craftY = 0;
+  if(craftX > width || craftY > height){ //if it goes over the boundaries it will go back to the position
+    craftX = 0; //THIS IS FOR TESTING
+    craftY = 0; //At least I think it is
   }
-  fill(100, 100, 100);
-  image(reentryCraft, craftX, craftY, 30, 30);
+  fill(100, 100, 100); //idk why we need this here
+  image(reentryCraft, craftX, craftY, 30, 30); // draw it
 
-  craftX += 2;
-  craftY += 3;
+  craftX += 2; //move the craft
+  craftY += 3; //this will become a lot more complicated
 }
 
-function inputBox(){
+function inputBox(){ //huh
   input.position(width/2, height - 40);
   testData = input.value();
 }
@@ -122,7 +111,7 @@ function information(){
   text("Vehicle is going in the direction of Earth's orbit", width - 100, 25);
 }
 
-function isClicked(objX, objY, objWidth, objHeight){
+function isClicked(objX, objY, objWidth, objHeight){//this needs to be better
   let leftBorder = objX - objWidth/2;
   let rightBorder = objX + objWidth/2;
   let topBorder = objY - objHeight / 2;
